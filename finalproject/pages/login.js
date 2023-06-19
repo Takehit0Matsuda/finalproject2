@@ -1,37 +1,43 @@
-import {getProviders, getSession, useSession} from "next-auth/react"
+import {getProviders, getSession, signIn} from "next-auth/react"
 import BtnLogin from "../components/BtnLogin";
 import { useRouter } from "next/router";
+import jwt from "jsonwebtoken";
+import config from "../config/config";
 import styles from './form.module.css';
-
-
 
 const Login = ({providers, session}) => {
     console.log(providers,session)
-    if (session) return null;
 
     const router = useRouter();
+
 
     const handleEmailButtonClick = () => {
         router.push("/login_with_email");
     };
 
+    const handleGoogleLogin = async () => {
+        await signIn("google", { callbackUrl: "/" });
+
+        
+    };
+
     return (
         <div className = {styles['out-body']}>
             <div className={styles['signup-form-container']}>
-                <h2 className="text-center fw-bolder text-uppercase"
+                <h2 className="text-center fw-bolder"
                 style={{ color: '#555', letterSpacing: '1px'}}>
-                    Take-App
+                    Welcome!
                 </h2>
-                <p className="text-center">
-                    Login with NextAuth
-                </p>
                 <BtnLogin
                     provider={providers.google}
                     bgColor='#4285f4'
+                    callbackUrl="/"
+                    onClick={handleGoogleLogin}
                 />
                 <BtnLogin
                     provider={providers.facebook}
                     bgColor='#056be1'
+                    callbackUrl="/"
                 />
                 <button
                     className="btn w-100 my-2 py-3"
