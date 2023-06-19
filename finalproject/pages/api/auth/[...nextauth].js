@@ -27,6 +27,14 @@ export default NextAuth({
     pages: {
         signIn: '/login'
     },
+    callbacks: {
+        session: async ({token, session: session}) => {
+            if (session?.user && token?.sub) {
+                session.user.id = token.sub;
+            }
+            return session
+        }
+    },
 
     database: process.env.DATABASE_URL,
 })

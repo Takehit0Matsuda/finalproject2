@@ -1,14 +1,23 @@
-import {getProviders, getSession, signIn} from "next-auth/react"
+import {getProviders, getSession, useSession} from "next-auth/react"
 import BtnLogin from "../components/BtnLogin";
+import { useRouter } from "next/router";
+import styles from './form.module.css';
+
+
 
 const Login = ({providers, session}) => {
     console.log(providers,session)
     if (session) return null;
+
+    const router = useRouter();
+
+    const handleEmailButtonClick = () => {
+        router.push("/login_with_email");
+    };
+
     return (
-        <div className = "d-flex justify-content-center align-items-center"
-        style={{ minHeight: '100vh'}}>
-            <div style={{maxwidth: '450px', width: '450px'}}
-            className="border border-1 max-auto p-4 shadow">
+        <div className = {styles['out-body']}>
+            <div className={styles['signup-form-container']}>
                 <h2 className="text-center fw-bolder text-uppercase"
                 style={{ color: '#555', letterSpacing: '1px'}}>
                     Take-App
@@ -24,6 +33,18 @@ const Login = ({providers, session}) => {
                     provider={providers.facebook}
                     bgColor='#056be1'
                 />
+                <button
+                    className="btn w-100 my-2 py-3"
+                    style={{ fontSize: "23px", background: "#343541", color: "#fff" }}
+                    onClick={handleEmailButtonClick}
+                    >
+                    Continue with Email
+                </button>
+                <div className={styles['divider']}></div>
+                <p className={styles['signup-link']}>
+                    Don't have an account?<br />
+                    <a className={styles['signup-link-text']} href="/signup">   Sign Up</a>
+                </p>
             </div>
         </div>
     )
