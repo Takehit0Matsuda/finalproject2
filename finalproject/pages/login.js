@@ -59,7 +59,7 @@ const Login = ({providers, session}) => {
 Login.getInitialProps = async (context) => {
     return {
         providers: await getProviders(context),
-        session: await getSession(context)
+        session: await getSession(context),
     }
 }
 

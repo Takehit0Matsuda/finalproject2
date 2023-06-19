@@ -1,15 +1,17 @@
 import React from "react";
 import { signOut, getSession } from 'next-auth/react';
 import { GetServerSidePropsContext } from 'next';
+import Nav from "../components/Nav"
 
 export default function Home({session}) {
 
-  console.log(session)
   return (
     <>
-        <title>nav bar</title>
-        test
-        <button onClick={() => signOut()}>Sign out</button>
+        <title>First Page</title>
+
+        <Nav />
+        
+        {/* <button onClick={() => signOut()}>Sign out</button> */}
     </>
   );
 }
