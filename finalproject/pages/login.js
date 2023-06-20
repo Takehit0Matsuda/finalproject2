@@ -16,7 +16,7 @@ const Login = ({providers, session}) => {
     };
 
     const handleGoogleLogin = async () => {
-        await signIn("google", { callbackUrl: "/" });
+        await signIn("google", { callbackUrl: "/main_app" });
 
         
     };
@@ -31,7 +31,7 @@ const Login = ({providers, session}) => {
                 <BtnLogin
                     provider={providers.google}
                     bgColor='#4285f4'
-                    callbackUrl="/"
+                    callbackUrl="/main_app"
                     onClick={handleGoogleLogin}
                 />
                 <BtnLogin

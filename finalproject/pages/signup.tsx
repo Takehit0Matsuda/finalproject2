@@ -27,6 +27,8 @@ const Register = () => {
 
     const onSubmit = async (data: SignupForm) => {
 
+        localStorage.setItem("password", data.password)
+
         const res = await fetch("api/auth/signup", {
             method: "POST",
             headers: {

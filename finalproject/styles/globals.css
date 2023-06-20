@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+.front_back{
+    background-image: url('background.jpg');
+    background-position: center;
+}

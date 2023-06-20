@@ -43,7 +43,7 @@ const Login = () => {
         console.log(user._id);
         console.log(localStorage.getItem("token"))
         alert(result.message);
-        router.push("/about");
+        router.push("/user_info");
     } else {
         alert(result.message);
     }
