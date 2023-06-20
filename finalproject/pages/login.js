@@ -7,9 +7,6 @@ import {useState} from 'react'
 const Login = ({providers, session}) => {
     console.log(providers,session)
 
-    const [user, setUser] = useState(null);
-
-    console.log(user)
 
     const router = useRouter();
 

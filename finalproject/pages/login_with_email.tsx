@@ -36,10 +36,14 @@ const Login = () => {
 
     const result = await res.json();
     if (result.success && result.token) {
+        localStorage.setItem("user", JSON.stringify(result.user))
         localStorage.setItem("token", result.token);
-        console.log(result.token)
+        console.log(localStorage.getItem("user"))
+        const user = JSON.parse(localStorage.getItem("user"));
+        console.log(user._id);
+        console.log(localStorage.getItem("token"))
         alert(result.message);
-        router.push("/");
+        router.push("/about");
     } else {
         alert(result.message);
     }
