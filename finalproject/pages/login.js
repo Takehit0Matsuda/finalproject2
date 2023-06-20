@@ -1,12 +1,15 @@
 import {getProviders, getSession, signIn} from "next-auth/react"
 import BtnLogin from "../components/BtnLogin";
 import { useRouter } from "next/router";
-import jwt from "jsonwebtoken";
-import config from "../config/config";
 import styles from './form.module.css';
+import {useState} from 'react'
 
 const Login = ({providers, session}) => {
     console.log(providers,session)
+
+    const [user, setUser] = useState(null);
+
+    console.log(user)
 
     const router = useRouter();
 
@@ -25,7 +28,7 @@ const Login = ({providers, session}) => {
         <div className = {styles['out-body']}>
             <div className={styles['signup-form-container']}>
                 <h2 className="text-center fw-bolder"
-                style={{ color: '#555', letterSpacing: '1px'}}>
+                style={{ color: '#555', letterSpacing: '1px', fontSize: '24px'}}>
                     Welcome!
                 </h2>
                 <BtnLogin

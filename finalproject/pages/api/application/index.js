@@ -1,4 +1,4 @@
-import connectDB from "../../../config/connectDB"
+import connectDB from "../util/connectDB"
 import Post_model from "../../../models/Post_Model"
 import { getSession} from "next-auth/react"
 

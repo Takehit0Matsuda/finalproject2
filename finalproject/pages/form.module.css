@@ -90,6 +90,12 @@
   text-align: center;
 }
 
+.form-signup-link {
+  font-size: 16px;
+  margin-top: 15px;
+  text-align: center;
+}
+
 .signup-link-text {
   font-size: 16px;
   color: #04645d;

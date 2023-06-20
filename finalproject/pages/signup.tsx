@@ -1,66 +1,68 @@
-import { useEffect } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { validationSchema } from './utils/validationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './form.module.css';
-
+import { useRouter } from 'next/router';
 
 interface SignupForm {
-    name: string;
+    username: string;
     email: string;
     password: string;
+    
 }
 
-const SignupForm = () => {
-const {
-    register,
-    handleSubmit,
-    formState: { errors },
-} = useForm<SignupForm>({
-    mode: 'onChange',
-    resolver: zodResolver(validationSchema),
-});
+const Register = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<SignupForm>({
+        mode: 'onChange',
+        resolver: zodResolver(validationSchema),
+    });
+    
+    const router = useRouter();
+　
 
-const onSubmit = (data: SignupForm) => {
-    console.log(data);
-    alert(data.email + "\n" + data.password);
-};
+    const onSubmit = async (data: SignupForm) => {
 
-return (
-    <div className={styles['out-body']}>
-    <div className={styles['signup-form-container']}>
-        <h1 className={styles['title']}>Signup</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-        <label className={styles['form-label']} htmlFor="username">Username</label>
-        <input className={styles['form-input']} id="name" type="text" {...register('name')} />
-        <p className={styles['err-message']}>{errors.name?.message}</p>
-        <label className={styles['form-label']} htmlFor="email">Email</label>
-        <input className={styles['form-input']} id="email" type="email" {...register('email')} />
-        <p className={styles['err-message']}>{errors.email?.message}</p>
-        <label className={styles['form-label']} htmlFor="password">Password</label>
-        <input className={styles['form-input']} id="password" type="password" {...register('password')} />
-        <p className={styles['err-message']}>{errors.password?.message}</p>
-        <button className={styles['form-button']} type="submit">Signup</button>
-        </form>
-    </div>
-    </div>
-);
-};
+        const res = await fetch("api/auth/signup", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data)
+    });
 
-const SignUp = () => {
-useEffect(() => {
-    const rootsElement = document.getElementById('roots');
-    if (rootsElement) {
-    rootsElement.innerHTML = '';
-    rootsElement.appendChild(document.createElement('div'));
+    const result = await res.json();
+    if (result.success) {
+        alert(result.message);
+        router.push("/login_with_email");
+    } else {
+        alert(result.message);
     }
-}, []);
+    };
+    
+    return (
+        <div className={styles['out-body']}>
+            <div className={styles['signup-form-container']}>
+                <h1 className={styles['title']}>Signup</h1>
+                <form onSubmit={handleSubmit(onSubmit)} >
+                    <label className={styles['form-label']} htmlFor="username">Username</label>
+                    <input className={styles['form-input']} type="text" id="username" {...register('username')} name = "username"/>
+                    <p className={styles['err-message']}>{errors.username?.message}</p>
+                    <label className={styles['form-label']} htmlFor="email">Email</label>
+                    <input className={styles['form-input']} type="email" id="email" {...register('email')} name = "email"/>
+                    <p className={styles['err-message']}>{errors.email?.message}</p>
+                    <label className={styles['form-label']} htmlFor="password">Password</label>
+                    <input className={styles['form-input']} type="password" id="password" {...register('password')} name = "password"/>
+                    <p className={styles['err-message']}>{errors.password?.message}</p>
+                    <button className={styles['form-button']} type="submit">Signup</button>
+                </form>
+            </div>
+        </div>    
+    )
+}
 
-return (
-    <div>
-    <SignupForm />
-    </div>
-);
-};
-
-export default SignUp;
+export default Register

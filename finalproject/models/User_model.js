@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-const schema = mongoose.Schema({
+const Schema = mongoose.Schema;
+
+const UserSchema = new Schema({
     username:{
         type: String,
-        unique: true,
         required: true
     },
     email: {
@@ -20,7 +21,7 @@ const schema = mongoose.Schema({
 
     role: {
         type: String,
-        default: "user"
+        default: "email_user"
     }
 });
 
@@ -49,9 +50,16 @@ const schema = mongoose.Schema({
 //     })
 // };
 
-// UserSchema.methods.isAdmin = function() {
-//     return this.role === "admin";
-// }
+UserSchema.methods.isAdmin = function() {
+    return this.role === "admin";
+}
 
-let user_model = mongoose.models.users || mongoose.model("User_model", schema);
-export default user_model;
+let UserModel;
+
+try {
+    UserModel = mongoose.model("User_model");
+} catch (error) {
+    UserModel = mongoose.models.User || mongoose.model("User_model", UserSchema);
+}
+
+export default UserModel

@@ -19,6 +19,6 @@
     },
     "allowImportingTsExtensions": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/api/auth/signup.js", "pages/signup.js"],
   "exclude": ["node_modules"]
 }

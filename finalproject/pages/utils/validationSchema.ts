@@ -1,7 +1,7 @@
 import {z} from "zod"
 
 export const validationSchema = z.object({
-    name: z
+    username: z
         .string()
         .nonempty("Username is required.")
         .min(4, "Username must be of length at least 4."),

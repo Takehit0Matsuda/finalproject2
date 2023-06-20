@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { validationSchema } from './utils/login_validationSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import styles from './form.module.css';
-import Link from 'next/link';
+import { useRouter } from "next/router";
 
 
 interface LoginForm {
@@ -11,20 +11,39 @@ interface LoginForm {
   password: string;
 }
 
-const LoginForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginForm>({
-    mode: 'onChange',
-    resolver: zodResolver(validationSchema),
-  });
+const Login = () => {
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm<LoginForm>({
+      mode: 'onChange',
+      resolver: zodResolver(validationSchema),
+    });
 
-  const onSubmit = (data: LoginForm) => {
-    console.log(data);
-    alert(data.email + "\n" + data.password);
-  };
+    const router = useRouter();
+
+    const onSubmit = async (data: LoginForm) => {
+      
+      const res = await fetch("api/auth/login", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+
+    });
+
+    const result = await res.json();
+    if (result.success && result.token) {
+        localStorage.setItem("token", result.token);
+        console.log(result.token)
+        alert(result.message);
+        router.push("/");
+    } else {
+        alert(result.message);
+    }
+    };
 
   return (
     <div className={styles['out-body']}>
@@ -32,35 +51,19 @@ const LoginForm = () => {
         <h1 className={styles['title']}>Login</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label className={styles['form-label']} htmlFor="email">Email</label>
-          <input className={styles['form-input']} id="email" type="email" {...register('email')} />
+          <input className={styles['form-input']} id="email" type="email" {...register('email')} name = "email"/>
           <p className={styles['err-message']}>{errors.email?.message}</p>
           <label className={styles['form-label']} htmlFor="password">Password</label>
-          <input className={styles['form-input']} id="password" type="password" {...register('password')} />
+          <input className={styles['form-input']} id="password" type="password" {...register('password')} name = "password"/>
           <p className={styles['err-message']}>{errors.password?.message}</p>
           <button className={styles['form-button']} type="submit">Login</button>
           <div className={styles['divider']}></div>
-          <p className={styles['signup-link']}>
+          <p className={styles['form-signup-link']}>
             Don't have an account?<br />
             <a className={styles['signup-link-text']} href="/signup">   Sign Up</a>
           </p>
         </form>
       </div>
-    </div>
-  );
-};
-
-const Login = () => {
-  useEffect(() => {
-    const rootsElement = document.getElementById('roots');
-    if (rootsElement) {
-      rootsElement.innerHTML = '';
-      rootsElement.appendChild(document.createElement('div'));
-    }
-  }, []);
-
-  return (
-    <div>
-      <LoginForm />
     </div>
   );
 };
